@@ -35,9 +35,9 @@ public class AIController {
 
     private void moveEnemies() {
         for (Enemy enemy : enemies) {
-            if (enemy != null && !gameField.isSurrounded(enemy.getPosition())) {
+            if (enemy != null && !gameField.isSurrounded(enemy.getCoordinates())) {
                 String direction = enemy.getDirections()[new Random().nextInt(8)];
-                while (!gameField.moveEntity(enemy.getPosition(), enemy.getPosition().cloneAndMove(direction, enemy.getSpeed()))) {
+                while (!gameField.moveEntity(enemy.getCoordinates(), enemy.getCoordinates().cloneAndMove(direction, enemy.getSpeed()))) {
                     direction = enemy.getDirections()[new Random().nextInt(8)];
                 }
                 enemy.move(direction);

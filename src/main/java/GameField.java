@@ -9,18 +9,18 @@ public class GameField {
         this.maxY = maxY - 1;
     }
 
-    public boolean isEmptyLocation(Position position) {
-        boolean isInBounds = isValidPosition(position);
-        return isInBounds && !isOccupied(position);
+    public boolean isEmptyLocation(Coordinates coordinates) {
+        boolean isInBounds = isValidPosition(coordinates);
+        return isInBounds && !isOccupied(coordinates);
     }
 
-    public boolean isOccupied(Position position) {
-        return field[position.getY()][position.getX()] != null;
+    public boolean isOccupied(Coordinates coordinates) {
+        return field[coordinates.getY()][coordinates.getX()] != null;
     }
 
     public void addEntity(GameFieldEntity entity) {
-        if (field[entity.getPosition().getY()][entity.getPosition().getX()] == null) {
-            field[entity.getPosition().getY()][entity.getPosition().getX()] = entity;
+        if (field[entity.getCoordinates().getY()][entity.getCoordinates().getX()] == null) {
+            field[entity.getCoordinates().getY()][entity.getCoordinates().getX()] = entity;
         }
     }
 
@@ -35,10 +35,10 @@ public class GameField {
         }
     }
 
-    public GameFieldEntity findFirstEntityInDirection(Position startPosition, String direction, int range){
+    public GameFieldEntity findFirstEntityInDirection(Coordinates startCoordinates, String direction, int range){
         for (int i = 1; i <= range; i++) {
-            Position positionToCheck = startPosition.cloneAndMove(direction, i);
-            GameFieldEntity entity = getEntity(positionToCheck);
+            Coordinates coordinatesToCheck = startCoordinates.cloneAndMove(direction, i);
+            GameFieldEntity entity = getEntity(coordinatesToCheck);
             if(entity != null){
                 return entity;
             }
@@ -46,10 +46,10 @@ public class GameField {
         return null;
     }
 
-    public boolean isSurrounded(Position position){
-        for (int y = position.getY() - 1; y <= position.getY() + 1; y++) {
-            for (int x = position.getX() - 1; x <= position.getX() + 1; x++) {
-                if(isEmptyLocation(new Position(x, y))){
+    public boolean isSurrounded(Coordinates coordinates){
+        for (int y = coordinates.getY() - 1; y <= coordinates.getY() + 1; y++) {
+            for (int x = coordinates.getX() - 1; x <= coordinates.getX() + 1; x++) {
+                if(isEmptyLocation(new Coordinates(x, y))){
                     return false;
                 }
             }
@@ -58,29 +58,29 @@ public class GameField {
     }
 
 
-    public boolean moveEntity(Position fromPosition, Position toPosition) {
-        if(isValidPosition(fromPosition) && isEmptyLocation(toPosition)){
-            GameFieldEntity entity = getEntity(fromPosition);
+    public boolean moveEntity(Coordinates fromCoordinates, Coordinates toCoordinates) {
+        if(isValidPosition(fromCoordinates) && isEmptyLocation(toCoordinates)){
+            GameFieldEntity entity = getEntity(fromCoordinates);
             if(entity != null){
-                field[fromPosition.getY()][fromPosition.getX()] = null;
-                field[toPosition.getY()][toPosition.getX()] = entity;
+                field[fromCoordinates.getY()][fromCoordinates.getX()] = null;
+                field[toCoordinates.getY()][toCoordinates.getX()] = entity;
                 return true;
             }
         }
         return false;
     }
 
-    private GameFieldEntity getEntity(Position position){
-        if(isValidPosition(position)){
-            return field[position.getY()][position.getX()];
+    private GameFieldEntity getEntity(Coordinates coordinates){
+        if(isValidPosition(coordinates)){
+            return field[coordinates.getY()][coordinates.getX()];
         }
         return null;
     }
 
     public boolean isInAttackRangeOfPlayer(Enemy enemy) {
-        for (int y = enemy.getPosition().getY() - enemy.getAttackRange(); y <= enemy.getPosition().getY() + enemy.getAttackRange(); y++) {
-            for (int x = enemy.getPosition().getX() - enemy.getAttackRange(); x <= enemy.getPosition().getX() + enemy.getAttackRange(); x++) {
-                if(isValidPosition(new Position(x, y)) && field[y][x] instanceof Player){
+        for (int y = enemy.getCoordinates().getY() - enemy.getAttackRange(); y <= enemy.getCoordinates().getY() + enemy.getAttackRange(); y++) {
+            for (int x = enemy.getCoordinates().getX() - enemy.getAttackRange(); x <= enemy.getCoordinates().getX() + enemy.getAttackRange(); x++) {
+                if(isValidPosition(new Coordinates(x, y)) && field[y][x] instanceof Player){
                     return true;
                 }
             }
@@ -105,7 +105,7 @@ public class GameField {
         return stringBuilder.toString();
     }
 
-    private boolean isValidPosition(Position position) {
-        return position.getX() >= 0 && position.getX() <= maxX && position.getY() >= 0 && position.getY() <= maxY;
+    private boolean isValidPosition(Coordinates coordinates) {
+        return coordinates.getX() >= 0 && coordinates.getX() <= maxX && coordinates.getY() >= 0 && coordinates.getY() <= maxY;
     }
 }

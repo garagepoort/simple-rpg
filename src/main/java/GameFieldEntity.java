@@ -1,7 +1,7 @@
 public class GameFieldEntity {
 
     private String[] directions = new String[]{"N", "NE", "E", "SE", "S", "SW", "W", "NW"};
-    private Position position;
+    private Coordinates coordinates;
     private int speed;
     private int health;
     private int attackRange;
@@ -9,7 +9,7 @@ public class GameFieldEntity {
 
     public GameFieldEntity(int x, int y, int speed, int health) {
         this.health = health;
-        position = new Position(x, y);
+        coordinates = new Coordinates(x, y);
         this.speed = speed;
     }
 
@@ -30,16 +30,16 @@ public class GameFieldEntity {
         return attackPower;
     }
 
-    public Position getPosition() {
-        return position;
+    public Coordinates getCoordinates() {
+        return coordinates;
     }
 
     public int getSpeed() {
         return speed;
     }
 
-    public void setPosition(Position position) {
-        this.position = position;
+    public void setCoordinates(Coordinates coordinates) {
+        this.coordinates = coordinates;
     }
 
     public String[] getDirections() {
@@ -55,6 +55,6 @@ public class GameFieldEntity {
     }
 
     public void move(String direction) {
-        setPosition(getPosition().cloneAndMove(direction, speed));
+        setCoordinates(getCoordinates().cloneAndMove(direction, speed));
     }
 }

@@ -22,7 +22,7 @@ public class PlayerController {
     }
 
     private void movePlayer(String direction) {
-        boolean playerMoved = gameField.moveEntity(player.getPosition(), player.getPosition().cloneAndMove(direction, player.getSpeed()));
+        boolean playerMoved = gameField.moveEntity(player.getCoordinates(), player.getCoordinates().cloneAndMove(direction, player.getSpeed()));
         if (playerMoved) {
             player.move(direction);
         } else {
@@ -32,7 +32,7 @@ public class PlayerController {
     }
 
     private void letPlayerAttack(String direction) {
-        GameFieldEntity entity = gameField.findFirstEntityInDirection(player.getPosition(), direction, player.getAttackRange());
+        GameFieldEntity entity = gameField.findFirstEntityInDirection(player.getCoordinates(), direction, player.getAttackRange());
 
         if (entity != null && entity instanceof Enemy) {
             player.attack(entity);
